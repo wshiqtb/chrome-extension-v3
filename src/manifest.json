@@ -1,0 +1,30 @@
+{
+  "name": "chrome extension demo",
+  "description": "Build an Extension!",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.ts"
+  },
+  "permissions": ["activeTab", "notification"],
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+  "content_scripts": [ 
+    {
+      "all_frames": true, 
+      "matches": ["<all_urls>"],
+      "js": ["content-scripts/main.ts"]
+    }
+  ],
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  }
+}
