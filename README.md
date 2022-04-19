@@ -1,7 +1,14 @@
-# Vue 3 + Vite
+# dockyard扩展
+axhub chrome扩展插件
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 开发文档
+```
+# 装包
+yarn
 
-## Recommended IDE Setup
+# 启动
+yarn serve
+```
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+最后把dist文件夹导入到chrome扩展里
+
