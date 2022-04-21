@@ -9,13 +9,12 @@ let app = null
 
 // 挂载app
 const mounted = function () {
-  const domId = 'interfaceControlFrameHeader'
-  let rootEl = document.querySelector(`#${domId}`)
+  const rootEl = document.querySelector('#interfaceControlFrameHeader') || document.querySelector('#interfaceControlFrameRight')
+
   if (!rootEl) {
-    rootEl = document.createElement('div')
-    rootEl.id = domId
-    document.body.appendChild(rootEl)
+    return
   }
+
   app = new Vue(App)
   rootEl.appendChild(app.$mount().$el)
 }

@@ -11,7 +11,9 @@
     let urls = ['start.html']
     const iteration = (nodes) => {
       nodes.forEach(node => {
-        urls = [...urls, node.url]
+        if (node.url) {
+          urls = [...urls, node.url]
+        }
         if (node.children) {
           iteration(node.children)
         }
@@ -57,6 +59,21 @@
 
   // 上传文件
   const upload = async (files) => {
+    // for (const file of files) {
+    //   const fd = new FormData()
+    //   fd.append('id', 'c96knikrtt7fqgprnn30')
+    //   fd.append('files', file.blob, file.url)
+    //   console.log(11111, '开始上传', file.url)
+    //   const res = await fetch('http://node01v.zgb.shyc3.qianxin-inc.cn:6789/api/v1/upload/', {
+    //     method: 'post',
+    //     body: fd
+    //   })
+
+    //   console.log(11111, '上传完成', file.url, res)
+    // }
+
+    // return true
+
     const fd = new FormData()
     fd.append('id', 'c96knikrtt7fqgprnn30')
     files.forEach(file => {

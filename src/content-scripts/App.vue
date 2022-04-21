@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-tag type="primary" @click="upload">content-scripts</q-tag>
+    <q-button type="primary" @click="upload">上传</q-button>
   </div>
 </template>
 
