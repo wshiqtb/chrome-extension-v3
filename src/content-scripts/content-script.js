@@ -7,17 +7,23 @@ Vue.use(Qaxd)
 
 let app = null
 
+// 挂载app
 const mounted = function () {
-  const domId = 'dockyard-ext-root'
+  const domId = 'interfaceControlFrameHeader'
   let rootEl = document.querySelector(`#${domId}`)
   if (!rootEl) {
     rootEl = document.createElement('div')
     rootEl.id = domId
     document.body.appendChild(rootEl)
   }
-  if (rootEl.childNodes.length > 0) return false
   app = new Vue(App)
   rootEl.appendChild(app.$mount().$el)
 }
 
-!app && mounted()
+// 程序入口
+const start = function () {
+  !app && mounted()
+}
+
+// 启动
+start()

@@ -16,3 +16,15 @@ export const _fetch = async (url, options) => {
   const jsonRes = await res.json()
   return jsonRes
 }
+
+// 注入js
+export const injectScript = async (url) => {
+  const scriptEl = document.createElement('script')
+  scriptEl.setAttribute('type', 'text/javascript')
+  document.head.appendChild(scriptEl)
+  scriptEl.onload = function () {
+    this.parentNode.removeChild(this)
+    console.log('remove inject')
+  }
+  scriptEl.src = chrome.runtime.getURL(url)
+}
