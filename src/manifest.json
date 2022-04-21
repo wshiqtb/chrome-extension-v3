@@ -29,7 +29,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*/start.html*"],
+      "matches": ["<all_urls>"],
       "js":["js/content-script.js"]
     }
   ],

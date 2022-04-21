@@ -16,7 +16,7 @@ const mounted = function () {
   }
 
   app = new Vue(App)
-  rootEl.appendChild(app.$mount().$el)
+  rootEl.prepend(app.$mount().$el)
 }
 
 // 程序入口

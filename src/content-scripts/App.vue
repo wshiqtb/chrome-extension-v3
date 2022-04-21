@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-button type="primary" @click="upload">上传</q-button>
+    <q-button icon="qax-icon-Angle-upload" type="primary" @click="upload">上传</q-button>
   </div>
 </template>
 

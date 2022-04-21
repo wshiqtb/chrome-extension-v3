@@ -76,6 +76,7 @@
 
     const fd = new FormData()
     fd.append('id', 'c96knikrtt7fqgprnn30')
+    fd.append('origin', 'extension')
     files.forEach(file => {
       fd.append('files', file.blob, file.url)
     })
