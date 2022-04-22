@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div style="position: fixed;z-index:999;">
+    <q-button type="primary" icon="q-icon-search">搜索</q-button>
     <q-button icon="qax-icon-Angle-upload" type="primary" @click="upload">上传</q-button>
   </div>
 </template>

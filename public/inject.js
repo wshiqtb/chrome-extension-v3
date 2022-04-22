@@ -8,7 +8,7 @@
 
   // 提取html文件
   const getHtmls = async () => {
-    let urls = ['start.html']
+    let urls = ['index.html', 'start.html']
     const iteration = (nodes) => {
       nodes.forEach(node => {
         if (node.url) {
@@ -34,6 +34,32 @@
     }
 
     return htmlList
+  }
+
+  // 提取资源文件URL
+  const getSourceFilesUrl = (htmlList, reg) => {
+    const urls = htmlList.reduce((temp, curHtml) => {
+      const curPageUrls = []
+      curHtml.htmlStr.replace(reg, (a, b) => {
+        b && curPageUrls.push(b)
+        return a
+      })
+      return [...temp, ...curPageUrls]
+    }, [])
+
+    return [...new Set(urls)]
+  }
+
+  // 获取资源文件内容
+  const getSourceFilesBlob = async (urls) => {
+    const fileList = []
+    for (const url of urls) {
+      const res = await fetchFile(url)
+      const blob = await res.blob()
+      const text = await blob.text()
+      fileList.push({ url, blob, text })
+    }
+    return fileList
   }
 
   // 提取资源文件
@@ -88,17 +114,32 @@
 
   // 程序入口
   const start = async () => {
+    const coreUrls = [
+      'plugins/sitemap/sitemap.js',
+      'resources/images/caret_down.svg',
+      'resources/images/close_x_minimize.svg',
+      'resources/images/overflow-icon.svg',
+      'resources/images/axure9_logo.svg',
+      'plugins/sitemap/sitemap.js',
+      'plugins/page_notes/page_notes.js',
+      'plugins/debug/debug.js'
+    ]
+
     try {
       const htmlList = await getHtmls()
-      const imgList = await getSourceFiles(htmlList, /<img\s.*src="([^"]*)".*?\/>/g)
-      const jsList = await getSourceFiles(htmlList, /<script\s.*src="([^"]*)".*?><\/script>/g)
-      const cssList = await getSourceFiles(htmlList, /<link\s.*href="([^"]*)".*?\/>/g)
-      const fileList = [...htmlList, ...imgList, ...jsList, ...cssList]
+      const imgUrls = await getSourceFilesUrl(htmlList, /<img\s.*src="([^"]*)".*?\/>/g)
+      const jsUrls = await getSourceFilesUrl(htmlList, /<script\s.*src="([^"]*)".*?><\/script>/g)
+      const cssUrls = await getSourceFilesUrl(htmlList, /<link\s.*href="([^"]*)".*?\/>/g)
+
+      const sourceFileList = await getSourceFilesBlob([...new Set([...coreUrls, ...imgUrls, ...jsUrls, ...cssUrls])])
+
+      const fileList = [...htmlList, ...sourceFileList]
       console.log('axhub - files', fileList)
       await upload(fileList)
       // 上传成功
       window.postMessage({ type: 'uploaded', data: { code: 1 } })
     } catch (error) {
+      console.log(error)
       // 上传失败
       window.postMessage({ type: 'uploaded', data: { code: 0 } })
     }

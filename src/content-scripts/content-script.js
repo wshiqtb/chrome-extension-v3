@@ -9,7 +9,8 @@ let app = null
 
 // 挂载app
 const mounted = function () {
-  const rootEl = document.querySelector('#interfaceControlFrameHeader') || document.querySelector('#interfaceControlFrameRight')
+  // const rootEl = document.querySelector('#interfaceControlFrameHeader') || document.querySelector('#interfaceControlFrameRight')
+  const rootEl = document.querySelector('body') || document.querySelector('#interfaceControlFrameRight')
 
   if (!rootEl) {
     return
