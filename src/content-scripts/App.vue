@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     upload () {
-      injectScript('inject.js')
+      injectScript('js/inject.js')
     },
     // 监听postMessage
     addPostMessageEvent () {

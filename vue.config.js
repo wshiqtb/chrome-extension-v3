@@ -7,7 +7,13 @@ module.exports = {
     }
   },
   configureWebpack: {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    entry: {
+      inject: './src/injects/upload.js'
+    }
+  },
+  chainWebpack (config) {
+    config.optimization.delete('splitChunks')
   },
   css: {
     extract: false
