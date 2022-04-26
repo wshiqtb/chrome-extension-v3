@@ -1,7 +1,6 @@
 <template>
   <div>
-    <q-tag>popup</q-tag>
-    <q-button type="primary" icon="q-icon-search">搜索</q-button>
+    popup
   </div>
 </template>
 

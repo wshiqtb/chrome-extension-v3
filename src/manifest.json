@@ -29,13 +29,13 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*/start.html*"],
+      "matches": ["*://127.0.0.1:*/start.html*","*://localhost:*/start.html*"],
       "js":["js/content-script.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": [ "js/inject.js" ],
+      "resources": [ "js/inject-upload.js" ],
       "matches": [ "<all_urls>" ]
     }
   ],

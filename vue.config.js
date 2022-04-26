@@ -6,10 +6,12 @@ module.exports = {
       title: 'Popup'
     }
   },
+  filenameHashing: false,
+  productionSourceMap: false,
   configureWebpack: {
     devtool: 'source-map',
     entry: {
-      inject: './src/injects/upload.js'
+      'inject-upload': './src/injects/upload.js'
     }
   },
   chainWebpack (config) {

@@ -12,7 +12,7 @@ const fetchFile = async (url) => {
   return { url, blob, text }
 }
 
-// 提取html文件
+// 提取html文件URL
 const getHtmls = async () => {
   const iteration = (nodes) => {
     let _urls = []
@@ -33,6 +33,7 @@ const getHtmls = async () => {
   return [...coreUrls, ...urls]
 }
 
+// 提取单个文件内引用的资源文件URL
 const getUrlsByReg = (file) => {
   const url = file.url
   const text = file.text
@@ -41,10 +42,6 @@ const getUrlsByReg = (file) => {
     /(?<=<link\s.*href=")[^"]*\.css(?=".*?\/>)/ig,
     /(?<=<img\s.*src=")[^"]+?\.(svg|png|jpe?g)(?=".*?\/>)/ig,
     /(?<=background:\s.*?url\(('|")).+?.(svg|png|jpe?g)(?=('|")\))/ig
-  // /"[^"]+?\.js"/ig,
-  // /"[^"]+?\.css"/ig,
-  // /"[^"]+?\.(jp?eg|png|gif|svg)"/ig,
-  // /'[^']+?\.(jp?eg|png|gif|svg)'/ig
   ]
   const urls = regs.reduce((urls, reg) => {
     const matchRes = text.match(reg)
@@ -59,6 +56,7 @@ const getUrlsByReg = (file) => {
   return urls
 }
 
+// 提取所有文件URL和文件内容
 const getSourceFiles = async (htmlUrls = []) => {
   let allUrls = []
   let allFileObjects = []
@@ -97,20 +95,6 @@ const getSourceFiles = async (htmlUrls = []) => {
   return { allUrls, allFileObjects }
 }
 
-// 上传文件
-const upload = async (files) => {
-  const fd = new FormData()
-  fd.append('id', 'c9hspvcrtt7a9r0tjvng')
-  fd.append('origin', 'extension')
-  files.forEach(file => {
-    fd.append('files', file.blob, file.url)
-  })
-  return fetch('http://node01v.zgb.shyc3.qianxin-inc.cn:6789/api/v1/upload/', {
-    method: 'post',
-    body: fd
-  })
-}
-
 // 程序入口
 const start = async () => {
   // 内置文件URL
@@ -118,31 +102,19 @@ const start = async () => {
     'plugins/sitemap/sitemap.js',
     'plugins/page_notes/page_notes.js',
     'plugins/debug/debug.js'
-    //   'resources/images/caret_down.svg',
-    //   'resources/images/close_x_minimize.svg',
-    //   'resources/images/overflow-icon.svg',
-    //   'resources/images/axure9_logo.svg',
   ]
 
   try {
     const htmlUrls = await getHtmls()
+    // eslint-disable-next-line no-unused-vars
     const { allUrls, allFileObjects } = await getSourceFiles([...htmlUrls, ...coreUrls])
-    console.log('axhub - files', allUrls, allFileObjects)
-    // const imgUrls = await getSourceFilesUrl(htmlList, /<img\s.*src="([^"]*)".*?\/>/g)
-    // const jsUrls = await getSourceFilesUrl(htmlList, /<script\s.*src="([^"]*)".*?><\/script>/g)
-    // const cssUrls = await getSourceFilesUrl(htmlList, /<link\s.*href="([^"]*)".*?\/>/g)
+    // console.log('axhub - files', allUrls, allFileObjects)
 
-    // const sourceFileList = await getSourceFilesBlob([...new Set([...coreUrls, ...imgUrls, ...jsUrls, ...cssUrls])])
-
-    // const fileList = [...htmlList, ...sourceFileList]
-    // console.log('axhub - files', fileList)
-    await upload(allFileObjects)
-    // 上传成功
-    window.postMessage({ type: 'uploaded', data: { code: 1 } })
+    // 文件采集成功
+    window.postMessage({ type: 'upload', data: { code: 1, data:allFileObjects } })
   } catch (error) {
-    console.log(error)
-    // 上传失败
-    window.postMessage({ type: 'uploaded', data: { code: 0 } })
+    // 文件采集失败
+    window.postMessage({ type: 'upload', data: { code: 0, data:null } })
   }
 }
 

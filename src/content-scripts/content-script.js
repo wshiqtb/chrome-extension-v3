@@ -1,16 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Qaxd from '@atsfe/qaxd'
-import '@atsfe/qaxd/packages/theme-standard/src/index.scss'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.css'
 
-Vue.use(Qaxd)
+Vue.use(Antd)
 
 let app = null
 
 // 挂载app
 const mounted = function () {
-  // const rootEl = document.querySelector('#interfaceControlFrameHeader') || document.querySelector('#interfaceControlFrameRight')
-  const rootEl = document.querySelector('body') || document.querySelector('#interfaceControlFrameRight')
+  const rootEl = document.querySelector('#interfaceControlFrameHeader') || document.querySelector('#interfaceControlFrameRight')
 
   if (!rootEl) {
     return
