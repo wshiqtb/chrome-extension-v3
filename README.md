@@ -1,5 +1,5 @@
 # dockyard扩展
-axhub chrome扩展插件
+新版 axhub chrome扩展插件
 
 ## 开发文档
 ```

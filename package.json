@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "inspect": "vue-cli-service inspect",
     "lint": "vue-cli-service lint",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "ant-design-vue": "1.7.8",
