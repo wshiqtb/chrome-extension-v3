@@ -29,7 +29,7 @@ module.exports = {
         contentScripts: {
           entries: {
             'content-script': [
-              'src/content-scripts/content-script.js'
+              'src/content-scripts/main.js'
             ]
           }
         }

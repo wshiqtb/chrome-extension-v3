@@ -56,7 +56,7 @@ const getUrlsByReg = (file) => {
   return urls
 }
 
-// 提取所有文件URL和文件内容
+// 获取所有文件URL和非404文件的内容
 const getSourceFiles = async (htmlUrls = []) => {
   let allUrls = []
   let allFileObjects = []

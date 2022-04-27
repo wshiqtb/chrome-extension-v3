@@ -19,10 +19,7 @@ export default {
       uploadFormData: {}
     }
   },
-  created () {
-  },
   methods: {
-
     upload () {
       this.showUploadDialog = true;
       this.$nextTick(()=>{

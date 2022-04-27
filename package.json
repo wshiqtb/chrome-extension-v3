@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "ant-design-vue": "1.7.8",
-    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "path-browserify": "^1.0.1",
     "qs": "^6.10.3",
