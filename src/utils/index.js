@@ -1,15 +1,19 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 import merge from 'lodash/merge'
-import {baseUrl} from '../configs/index.js'
+
+export const getBaseUrl = async ()=>{
+  const {hostName=''} = await chrome.storage.sync.get('hostName')
+  return hostName;
+}
 
 export const _fetch = async (url, options={}) => {
-  // const store = await chrome.storage.sync.get('token')
-  // const token = store.token
-  // if (!token) {
-  //   new Vue().$message.error('登录态校验失败')
-  //   return false
-  // }
-  let _url = baseUrl+url
+  const hostName = await getBaseUrl();
+  if(!hostName){
+    (new Vue()).$message.error('请先填写正确的服务器地址')
+    return false;
+  }
+
+  let _url = hostName+url
   let defaultOptions = {
     // mode: 'cors',
     // credentials: 'include'

@@ -3,16 +3,13 @@
     <a-modal
       v-model="visible"
       title="原型上传"
-      width="760px"
+      width="800px"
       @cancel="handleCancel"
       @afterClose="handleAfterClose"
     >
       <a-form-model ref="form" class="form-model" :model="form" layout="horizontal" :label-col="{span:3}" :wrapper-col="{span:20}">
         <a-form-model-item v-if="showHostName" has-feedback label="服务器" prop="hostName" :rules="rulesHostName">
           <a-input v-model="form.hostName" placeholder="例如: http://node01v.zgb.shyc3.qianxin-inc.cn:6789" />
-          <a-tooltip title="首次填写正确的服务器地址后，后续上传将不用再填写。">
-            <a-icon type="question-circle" class="form-item-right" />
-          </a-tooltip>
         </a-form-model-item>
 
         <a-form-model-item has-feedback label="原型" prop="projectId" :rules="rulesProjectId">
@@ -71,8 +68,7 @@ import isURL from 'validator/lib/isURL'
 import cloneDeep from 'lodash/cloneDeep'
 import debounce from 'lodash/debounce'
 import { v4 as uuidv4 } from 'uuid'
-import {_fetch, injectScript} from '../../utils/index.js'
-import {baseUrl} from '../../configs/index.js'
+import {_fetch, injectScript, getBaseUrl} from '../../utils/index.js'
 
 let _speed = 0.18;
 let _limit = 96;
@@ -82,7 +78,6 @@ export default {
   data () {
     this.fetchUser = debounce(this.fetchProjects, 500);
     return {
-      baseUrl,
       visible: false,
       showHostName: false,
       showPassword: false,
@@ -111,7 +106,7 @@ export default {
   methods: {
     async show () {
       // 初始化数据
-      this.form.hostName = await this.getCacheHostName()
+      this.form.hostName = await getBaseUrl()
       this.showHostName = await this.checkShowHostName(this.form.hostName)
 
       // 显示dialog
@@ -154,17 +149,12 @@ export default {
           method: 'post',
           body: fd
         })
-        const { hostName = '' } = await chrome.storage.sync.get('hostName')
+        const hostName = await getBaseUrl();
         this.progressFinish(true);
         this.previewUrl = hostName+res.Path+'/start.html';
       } catch (error) {
         this.progressFinish(false);
       }
-    },
-
-    async getCacheHostName () {
-      const { hostName = '' } = await chrome.storage.sync.get('hostName')
-      return hostName
     },
 
     async checkShowHostName (hostName) {
