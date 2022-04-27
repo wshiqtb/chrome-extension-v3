@@ -9,15 +9,15 @@
     >
       <a-form-model ref="form" class="form-model" :model="form" layout="horizontal" :label-col="{span:3}" :wrapper-col="{span:20}">
         <a-form-model-item v-if="showHostName" has-feedback label="服务器" prop="hostName" :rules="rulesHostName">
-          <a-input v-model="form.hostName" placeholder="例如: http://node01v.zgb.shyc3.qianxin-inc.cn:6789" class="form-item-main" />
+          <a-input v-model="form.hostName" placeholder="例如: http://node01v.zgb.shyc3.qianxin-inc.cn:6789" />
           <a-tooltip title="首次填写正确的服务器地址后，后续上传将不用再填写。">
             <a-icon type="question-circle" class="form-item-right" />
           </a-tooltip>
         </a-form-model-item>
+
         <a-form-model-item has-feedback label="原型" prop="projectId" :rules="rulesProjectId">
           <a-select
             v-model="form.projectId"
-            class="form-item-main"
             show-search
             placeholder="选择项目原型"
             :filter-option="false"
@@ -28,11 +28,12 @@
               {{ d.text }}
             </a-select-option>
           </a-select>
-          <a :href="baseUrl" target="_blank" class="form-item-right">新建</a>
         </a-form-model-item>
+
         <a-form-model-item label="备注" prop="comment">
-          <a-textarea v-model="form.comment" class="form-item-main" placeholder="请输入版本号，例如：1.0.0" />
+          <a-textarea v-model="form.comment" placeholder="请输入版本号，例如：1.0.0" />
         </a-form-model-item>
+
         <a-form-model-item v-if="progressPercent>0" label="上传进度">
           <a-progress
             :stroke-color="{
@@ -276,12 +277,4 @@ export default {
 </script>
 
 <style lang="scss">
-.form-model{
-  .form-item-main{
-    width: 90%
-  }
-  .form-item-right{
-    margin-left: 1em;
-  }
-}
 </style>
