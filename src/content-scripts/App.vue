@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-button type="link" @click="upload">
-      <a-icon type="cloud-upload" :style="{fontSize:'26px',marginTop:'4px'}" />
+      <a-icon type="cloud-upload" :style="{fontSize:'26px',marginTop:'4px'}" title="上传原型" />
     </a-button>
 
     <UploadDialog v-if="showUploadDialog" ref="uploadDialog" @close="closeDialog" />
