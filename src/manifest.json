@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "axhub",
+  "name": "原型托管",
   "homepage_url": "https://wiki.qianxin-inc.cn/pages/viewpage.action?pageId=538406419",
-  "description": "axhub扩展",
+  "description": "原型托管插件",
   "permissions": [
     "activeTab",
     "storage"
