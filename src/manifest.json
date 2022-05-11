@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "原型托管",
+  "name": "原型展示",
   "homepage_url": "https://wiki.qianxin-inc.cn/pages/viewpage.action?pageId=538406419",
-  "description": "原型托管插件",
+  "description": "原型展示插件",
   "permissions": [
     "activeTab",
     "storage"
