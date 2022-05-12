@@ -9,7 +9,7 @@
     >
       <a-form-model ref="form" class="form-model" :model="form" layout="horizontal" :label-col="{span:3}" :wrapper-col="{span:20}">
         <a-form-model-item v-if="showHostName" has-feedback label="服务器" prop="hostName" :rules="rulesHostName">
-          <a-input v-model="form.hostName" placeholder="例如: http://node01v.zgb.shyc3.qianxin-inc.cn:6789" />
+          <a-input v-model="form.hostName" placeholder="请输入服务器地址,如果不知道请联系管理员" />
         </a-form-model-item>
 
         <a-form-model-item has-feedback label="原型" prop="projectId" :rules="rulesProjectId">
