@@ -16,7 +16,7 @@
           <a-select
             v-model="form.projectId"
             show-search
-            placeholder="请输入关键词搜索"
+            placeholder="请输入项目名称搜索"
             :filter-option="false"
             :allow-clear="true"
             @search="fetchProjects"
