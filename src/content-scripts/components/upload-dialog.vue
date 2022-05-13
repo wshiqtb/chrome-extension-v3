@@ -105,11 +105,13 @@ export default {
 
   methods: {
     async show () {
-      const {project} = await chrome.storage.sync.get('project');
+      const {project=null} = await chrome.storage.sync.get('project');
       // 初始化数据
-      this.data = [project];
+      if(project){
+        this.data = [project];
+        this.form.projectId = project.value;
+      }
       this.form.hostName = await getBaseUrl()
-      this.form.projectId = project.value;
       this.showHostName = await this.checkShowHostName(this.form.hostName)
 
       // 显示dialog
