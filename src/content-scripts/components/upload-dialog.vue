@@ -16,6 +16,7 @@
           <a-select
             v-model="form.projectId"
             show-search
+            :show-arrow="false"
             placeholder="请输入项目名称搜索"
             :filter-option="false"
             :allow-clear="true"
@@ -82,7 +83,7 @@ export default {
       showHostName: false,
       showPassword: false,
       data: [],
-      form: { hostName: '', projectId: '', comment:'' },
+      form: { hostName: '', projectId: undefined, comment:'' },
       progressPercent: 0,
       progressStatus: 'active',
       previewUrl: '',
@@ -90,7 +91,7 @@ export default {
         { trigger: 'blur',required:true, validator: this.hostNameValidator }
       ],
       rulesProjectId: [
-        { trigger: 'blur',required:true, message: '原型地址不能为空' }
+        { trigger: 'blur',required:true, message: '原型地址不能为空，请输入项目名称搜索' }
       ],
     }
   },
