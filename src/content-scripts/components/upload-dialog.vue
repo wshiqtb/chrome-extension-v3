@@ -16,7 +16,7 @@
           <a-select
             v-model="form.projectId"
             show-search
-            placeholder="选择项目原型"
+            placeholder="请输入关键词搜索"
             :filter-option="false"
             :allow-clear="true"
             @search="fetchProjects"
@@ -105,8 +105,11 @@ export default {
 
   methods: {
     async show () {
+      const {project} = await chrome.storage.sync.get('project');
       // 初始化数据
+      this.data = [project];
       this.form.hostName = await getBaseUrl()
+      this.form.projectId = project.value;
       this.showHostName = await this.checkShowHostName(this.form.hostName)
 
       // 显示dialog
@@ -151,7 +154,11 @@ export default {
         })
         const hostName = await getBaseUrl();
         this.progressFinish(true);
-        this.previewUrl = hostName+res.Path+'/start.html';
+        this.previewUrl = hostName+res.Path;
+
+        // 上传完成后，缓存项目
+        const project = this.data.find(item=>item.value === uploadFormData.projectId);
+        chrome.storage.sync.set({project})
       } catch (error) {
         this.progressFinish(false);
       }
