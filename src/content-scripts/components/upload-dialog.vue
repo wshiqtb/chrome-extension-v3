@@ -3,6 +3,7 @@
     <a-modal
       v-model="visible"
       width="800px"
+      :mask-closable="false"
       @cancel="handleCancel"
       @afterClose="handleAfterClose"
     >
