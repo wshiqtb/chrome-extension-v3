@@ -10,10 +10,10 @@
         <div class="flex flex--between" style="margin-right:36px;">
           <span>原型上传</span>
           <section class="normal-font">
-            <a-button type="link" href="http://axhub.qianxin-inc.cn/docs/instructions/extension.html" target="_blank">
+            <a-button icon="question-circle" type="link" href="http://axhub.qianxin-inc.cn/docs/instructions/extension.html" target="_blank">
               帮助文档
             </a-button>
-            <a-button type="link" href="http://axhub.qianxin-inc.cn" target="_blank">
+            <a-button icon="bars" type="link" href="http://axhub.qianxin-inc.cn" target="_blank">
               项目列表
             </a-button>
           </section>
@@ -57,7 +57,7 @@
           />
         </a-form-model-item>
         <a-form-model-item v-if="progressStatus==='success'" label="预览地址">
-          <div class="flex">
+          <div class="flex" style="margin-top:4px;">
             <a-button type="link" :href="previewUrl" target="_blank">
               立即查看
             </a-button>
@@ -287,7 +287,7 @@ export default {
     // 复制预览地址
     copyPreviewUrl(){
       navigator.clipboard.writeText(this.previewUrl);
-      this.$message.success('复制成功');
+      this.$message.success('复制成功，您可以把链接发给项目成员');
     }
   }
 }
