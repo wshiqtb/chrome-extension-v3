@@ -63,7 +63,7 @@
               立即查看
             </a-button>
             <a-button type="link" @click="copyPreviewUrl">
-              复制链接
+              分享链接
             </a-button>
           </div>
         </a-form-model-item>
