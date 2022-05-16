@@ -2,17 +2,30 @@
   <div>
     <a-modal
       v-model="visible"
-      title="原型上传"
       width="800px"
       @cancel="handleCancel"
       @afterClose="handleAfterClose"
     >
+      <template slot="title">
+        <div class="flex flex--between" style="margin-right:36px;">
+          <span>原型上传</span>
+          <section class="normal-font">
+            <a-button type="link" href="http://axhub.qianxin-inc.cn/docs/instructions/extension.html" target="_blank">
+              帮助文档
+            </a-button>
+            <a-button type="link" href="http://axhub.qianxin-inc.cn" target="_blank">
+              项目列表
+            </a-button>
+          </section>
+        </div>
+      </template>
+
       <a-form-model ref="form" class="form-model" :model="form" layout="horizontal" :label-col="{span:3}" :wrapper-col="{span:20}">
         <a-form-model-item v-if="showHostName" has-feedback label="服务器" prop="hostName" :rules="rulesHostName">
           <a-input v-model="form.hostName" placeholder="请输入服务器地址,如果不知道请联系管理员" />
         </a-form-model-item>
 
-        <a-form-model-item has-feedback label="原型" prop="projectId" :rules="rulesProjectId">
+        <a-form-model-item has-feedback label="项目" prop="projectId" :rules="rulesProjectId">
           <a-select
             v-model="form.projectId"
             show-search
@@ -44,10 +57,14 @@
           />
         </a-form-model-item>
         <a-form-model-item v-if="progressStatus==='success'" label="预览地址">
-          <a :href="previewUrl" target="_blank">{{ previewUrl }}</a>
-          <a-button style="margin-left:1em;" @click="copyPreviewUrl">
-            复制
-          </a-button>
+          <div class="flex">
+            <a-button type="link" :href="previewUrl" target="_blank">
+              立即查看
+            </a-button>
+            <a-button type="link" @click="copyPreviewUrl">
+              复制链接
+            </a-button>
+          </div>
         </a-form-model-item>
       </a-form-model>
 
@@ -91,7 +108,7 @@ export default {
         { trigger: 'blur',required:true, validator: this.hostNameValidator }
       ],
       rulesProjectId: [
-        { trigger: 'blur',required:true, message: '原型地址不能为空，请输入项目名称搜索' }
+        { trigger: 'blur',required:true, message: '请输入项目名称搜索' }
       ],
     }
   },
@@ -277,4 +294,20 @@ export default {
 </script>
 
 <style lang="scss">
+.flex{
+  display: flex;
+  align-items: center;
+  &--between{
+    justify-content:space-between;
+  }
+}
+.preview-url{
+  word-break: break-all;
+  white-space: pre-wrap;
+  line-height: 1.3em;
+}
+.normal-font{
+  font-size: 14px;
+  font-weight: normal;
+}
 </style>
