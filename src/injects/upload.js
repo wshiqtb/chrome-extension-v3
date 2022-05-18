@@ -109,7 +109,9 @@ const start = async () => {
     // eslint-disable-next-line no-unused-vars
     const { allUrls, allFileObjects } = await getSourceFiles([...htmlUrls, ...coreUrls])
     // console.log('axhub - files', allUrls, allFileObjects)
-
+    if(localStorage.getItem('AXHUB_LOG')==='1'){
+      console.log(`%c[axhub]`,'background-color:green;',allFileObjects);
+    }
     // 文件采集成功
     window.postMessage({ type: 'upload', data: { code: 1, data:allFileObjects } })
   } catch (error) {
