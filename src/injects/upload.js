@@ -39,8 +39,8 @@ const getUrlsByReg = (file) => {
   const text = file.text
   const regs = [
     /(?<=<script\s.*src=")[^"]*(?=".*?><\/script>)/ig,
-    /(?<=<link\s.*href=")[^"]*\.css(?=".*?\/>)/ig,
-    /(?<=<img\s.*src=")[^"]+?\.(svg|png|jpe?g)(?=".*?\/>)/ig,
+    /(?<=<link\s.*href=")[^"]*\.css(?=".*?\/?>)/ig,
+    /(?<=<img\s.*src=")[^"]+?\.(svg|png|jpe?g)(?=".*?\/?>)/ig,
     /(?<=background:\s.*?url\(('|")).+?.(svg|png|jpe?g)(?=('|")\))/ig
   ]
   const urls = regs.reduce((urls, reg) => {
