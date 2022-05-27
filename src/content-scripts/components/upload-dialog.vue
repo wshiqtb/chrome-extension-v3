@@ -67,6 +67,9 @@
             </a-button>
           </div>
         </a-form-model-item>
+        <a-form-model-item v-if="progressStatus ==='success'" label="上传统计">
+          上传文件数：<em class="statistic-text">{{ uploadFilesLength }}</em> 个。文件大小：<em class="statistic-text">{{ uploadFilesSize }}</em> MB
+        </a-form-model-item>
       </a-form-model>
 
       <template slot="footer">
@@ -90,7 +93,7 @@ import { v4 as uuidv4 } from 'uuid'
 import {_fetch, injectScript, getBaseUrl} from '../../utils/index.js'
 
 let _speed = 0.18;
-let _limit = 96;
+let _limit = 46;
 let _timer = null;
 
 export default {
@@ -105,6 +108,8 @@ export default {
       progressPercent: 0,
       progressStatus: 'active',
       previewUrl: '',
+      uploadFilesLength: 0,
+      uploadFilesSize: 0,
       rulesHostName: [
         { trigger: 'blur',required:true, validator: this.hostNameValidator }
       ],
@@ -142,6 +147,7 @@ export default {
         switch (data.type) {
           case 'upload':
             // 开始上传文件
+            this.progressPercent = 50;
             this.injectUploadCallback(data.data)
             break
         }
@@ -158,6 +164,7 @@ export default {
     },
 
     async uploadAction(files){
+      const hostName = await getBaseUrl();
       const uploadFormData = cloneDeep(this.form);
       const fd = new FormData()
 
@@ -168,21 +175,27 @@ export default {
         fd.append('files', file.blob, file.url)
       })
 
-      try {
-        const res = await _fetch('/api/v1/upload/', {
-          method: 'post',
-          body: fd
-        })
-        const hostName = await getBaseUrl();
-        this.progressFinish(true);
-        this.previewUrl = hostName+res.Path;
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', hostName+'/api/v1/upload/');
+      xhr.onload = ()=>{
+        const res = JSON.parse(xhr.response);
+        if(xhr.status === 200){
+          this.previewUrl = hostName+res.Path;
+          // 上传完成后，缓存项目
+          const project = this.data.find(item=>item.value === uploadFormData.projectId);
+          chrome.storage.sync.set({project})
+          this.uploadFilesLength = files.length;
+          this.progressFinish(true);
+        }else{
+          this.progressFinish(false);
+        }
 
-        // 上传完成后，缓存项目
-        const project = this.data.find(item=>item.value === uploadFormData.projectId);
-        chrome.storage.sync.set({project})
-      } catch (error) {
-        this.progressFinish(false);
       }
+      xhr.upload.onprogress = (event)=>{
+        this.uploadFilesSize = (event.total / 1024 / 1024).toFixed(2)
+        this.progressPercent = 50 + (event.loaded / event.total * 50)
+      }
+      xhr.send(fd)
     },
 
     async checkShowHostName (hostName) {
@@ -243,10 +256,8 @@ export default {
       if(!checked) return false;
 
       this.progressStart();
-      this.$nextTick(()=>{
-        // 注入js，抓取所有原型文件，并通过postMessage传递回来
-        injectScript('js/inject-upload.js');
-      })
+      // 注入js，抓取所有原型文件，并通过postMessage传递回来
+      injectScript('js/inject-upload.js');
     },
 
     handleCancel(){
@@ -255,6 +266,8 @@ export default {
       this.progressPercent = 0;
       this.progressStatus = 'active';
       this.previewUrl = '';
+      this.uploadFilesLength = 0;
+      this.uploadFilesSize = 0;
       this.$refs.form.resetFields();
       this.visible = false;
     },
@@ -282,7 +295,7 @@ export default {
 
     // 进度条格式化
     progressFormat(percent){
-      return Math.floor(percent) + '%';
+      return percent<100 ? percent.toFixed(2) + '%' : percent+'%';
     },
 
     // 复制预览地址
@@ -310,5 +323,10 @@ export default {
 .normal-font{
   font-size: 14px;
   font-weight: normal;
+}
+.statistic-text{
+  font-size: 1.1em;
+  font-weight: 500;
+  color: brown;
 }
 </style>

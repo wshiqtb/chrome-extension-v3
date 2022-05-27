@@ -1,5 +1,6 @@
 
 import path from 'path-browserify'
+import chunk from 'lodash/chunk'
 
 // 公共fetch功能
 const fetchFile = async (url) => {
@@ -60,6 +61,7 @@ const getUrlsByReg = (file) => {
 const getSourceFiles = async (htmlUrls = []) => {
   let allUrls = []
   let allFileObjects = []
+  let htmlGroups = chunk(htmlUrls, 5)
 
   const iteration = async (urls) => {
     // 去除全局重复的文件
@@ -91,7 +93,11 @@ const getSourceFiles = async (htmlUrls = []) => {
     }
   }
 
-  await iteration(htmlUrls)
+  // 对html进行分组，避免页面数量太多的时候，加载阻塞
+  for(const group of htmlGroups){
+    await iteration(group)
+  }
+
   return { allUrls, allFileObjects }
 }
 
@@ -108,13 +114,15 @@ const start = async () => {
     const htmlUrls = await getHtmls()
     // eslint-disable-next-line no-unused-vars
     const { allUrls, allFileObjects } = await getSourceFiles([...htmlUrls, ...coreUrls])
-    // console.log('axhub - files', allUrls, allFileObjects)
     if(localStorage.getItem('AXHUB_LOG')==='1'){
       console.log(`%c[axhub]`,'background-color:green;',allFileObjects);
     }
     // 文件采集成功
     window.postMessage({ type: 'upload', data: { code: 1, data:allFileObjects } })
   } catch (error) {
+    if(localStorage.getItem('AXHUB_LOG')==='1'){
+      console.log(`%c[axhub]`,'background-color:green;', error);
+    }
     // 文件采集失败
     window.postMessage({ type: 'upload', data: { code: 0, data:null } })
   }
