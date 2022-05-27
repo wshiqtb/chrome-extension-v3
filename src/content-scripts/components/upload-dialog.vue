@@ -68,7 +68,7 @@
           </div>
         </a-form-model-item>
         <a-form-model-item v-if="progressStatus ==='success'" label="上传统计">
-          上传文件数：<em class="statistic-text">{{ uploadFilesLength }}</em> 个。文件大小：<em class="statistic-text">{{ uploadFilesSize }}</em> MB
+          文件数：<em class="statistic-text">{{ uploadFilesLength }}</em> 个。文件大小：<em class="statistic-text">{{ uploadFilesSize }}</em> MB
         </a-form-model-item>
       </a-form-model>
 
