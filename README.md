@@ -1,5 +1,6 @@
 # 原型展示插件
 新版 原型展示 chrome扩展插件
+[官网地址](http://axhub.qianxin-inc.cn/)
 
 ## 开发文档
 ```
