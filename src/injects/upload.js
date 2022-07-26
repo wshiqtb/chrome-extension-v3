@@ -39,16 +39,19 @@ const getUrlsByReg = (file) => {
   const url = file.url
   const text = file.text
   const regs = [
-    /(?<=<script\s.*src=")[^"]*(?=".*?><\/script>)/ig,
-    /(?<=<link\s.*href=")[^"]*\.css(?=".*?\/?>)/ig,
-    /(?<=<img\s.*src=")[^"]+?\.(svg|png|jpe?g)(?=".*?\/?>)/ig,
-    /(?<=background:\s.*?url\(('|")).+?.(svg|png|jpe?g)(?=('|")\))/ig
+    /(?<=<script\s.*src=")[^"]*(?=".*?><\/script>)/ig,                  // js文件
+    /(?<=<link\s.*href=")[^"]*\.css(?=".*?\/?>)/ig,                     // 样式文件
+    /(?<=<img\s.*src=")[^"]+?\.(svg|png|jpe?g)(?=".*?\/?>)/ig,          // 图片文件
+    /(?<=('|"))images\/[^"]*\.(svg|png|jpe?g)(?=('|"))/ig,              // js中动态加载的图片
+    /(?<=background:\s.*?url\(('|")).+?.(svg|png|jpe?g)(?=('|")\))/ig   // 样式文件中加载的图片
   ]
   const urls = regs.reduce((urls, reg) => {
     const matchRes = text.match(reg)
     if (!matchRes) return urls
     const childUrls = matchRes.map(matchUrl => {
-      const realUrl = path.join(path.dirname(url), matchUrl)
+      // js文件写的文件是相对根目录的，所以单独处理
+      const dirPath = path.extname(url) === '.js' ? '' : path.dirname(url);
+      const realUrl = path.join(dirPath, matchUrl)
       return realUrl
     })
     return urls.concat(childUrls)
