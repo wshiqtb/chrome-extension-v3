@@ -4,7 +4,7 @@ import chunk from 'lodash/chunk'
 
 // 公共fetch功能
 const fetchFile = async (url) => {
-  const res = await fetch(url)
+  const res = await fetch(url, {mode:'no-cors'})
   if (res.status === 404) {
     return false
   }
