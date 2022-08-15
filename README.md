@@ -19,3 +19,8 @@ yarn build
 ```
 把生产的artifacts目录下的zip包下载解压，导入到chrome扩展中
 
+## 更新文档
+文档仓库：https://git-biz.qianxin-inc.cn/ats-wuhan/projects/axhub/design-manage-docs/-/tree/master/
+
+把插件包提交到文档仓库，修改文档change log
+
