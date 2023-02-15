@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "原型展示",
-  "homepage_url": "https://wiki.qianxin-inc.cn/pages/viewpage.action?pageId=538406419",
+  "homepage_url": "https://wshiqtb.github.io/",
   "description": "原型展示插件",
   "permissions": [
     "activeTab",
